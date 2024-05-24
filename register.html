@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+body { 
+    font-family: Arial, sans-serif;
+    background-color: black; /* Set background color to black */
+    color: white; /* Set text color to white */
+}
+.container { 
+    max-width: 300px; 
+    margin: 100px auto; 
+    background-color: #111; /* Dark grey background for container */
+    padding: 20px; /* Add padding for better visual */
+    border-radius: 10px; /* Rounded corners for container */
+    text-align: center; /* Align content in the center */
+}
+input, button { 
+    width: 85%; 
+    padding: 8px 15px; /* Adjust padding to make the button smaller */
+    margin-bottom: 10px; /* Add margin between buttons */
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    background-color: #222; /* Dark grey background for input fields */
+    color: white; /* Set text color to white */
+}
+button { 
+    background-color: #04AA6D; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+button:hover { 
+    background-color: #039c5f; 
+}
+.forgot-form {
+    display: none; /* Initially hide the forgot password form */
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">
+    <img src="logo.png" alt="Ink & Echo Logo">
+  </div>
+    <h2>Login</h2>
+  <form id="loginForm" action="/login" method="post">
+    <input type="text" id="emailOrPhone" placeholder="Email or Mobile Number" name="email" required>
+    <button type="button" onclick="login()">Login</button>
+    <p><a href="forgot_password.html">Forgot Password?</a></p> <!-- Updated link -->
+    <div id="forgotForm" class="forgot-form">
+        <input type="password" id="oldPassword" placeholder="Old Password" name="oldpassword" required>
+        <input type="password" id="newPassword" placeholder="New Password" name="newpassword" required>
+        <button type="button" onclick="changePassword()">Submit</button>
+    </div>
+  </form>
+  <p>Not registered? <a href="#" onclick="showCreateAccount()">Create an account</a></p>
+  <div id="createAccountForm" style="display: none;">
+    <h2>Create Account</h2>
+    <form id="signupForm" action="/signup" method="post">
+      <input type="text" id="fullName" placeholder="Full Name" name="fullname" required>
+      <input type="text" id="signupEmail" placeholder="Email" name="email" required>
+      <input type="password" id="signupPassword" placeholder="Create Password" name="password" required>
+      <button type="button" onclick="signup()">Sign Up</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function login() {
+  var emailOrPhone = document.getElementById("emailOrPhone").value;
+  if (emailOrPhone.trim() === "") {
+    alert("Invalid! Please enter your email or phone number.");
+  } else {
+    // Redirect to clg.html
+    window.location.href = "clg.html";
+    // Remove the logo element
+    var logo = document.querySelector(".logo");
+    logo.parentNode.removeChild(logo);
+  }
+}
+
+function signup() {
+  var fullName = document.getElementById("fullName").value;
+  var signupEmail = document.getElementById("signupEmail").value;
+  var signupPassword = document.getElementById("signupPassword").value;
+  if (fullName.trim() === "" || signupEmail.trim() === "" || signupPassword.trim() === "") {
+    alert("Invalid! Please fill in all fields.");
+  } else {
+    document.getElementById("signupForm").submit();
+  }
+}
+
+function showForgotForm() {
+  var forgotForm = document.getElementById("forgotForm");
+  forgotForm.style.display = "block"; // Show the forgot password form
+}
+
+function changePassword() {
+  var oldPassword = document.getElementById("oldPassword").value;
+  var newPassword = document.getElementById("newPassword").value;
+  
+  // Regular expression to enforce the rules
+  var passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$/;
+  
+  // Check if the new password matches the regex pattern
+  if (!passwordRegex.test(newPassword)) {
+    alert("Invalid password! Password must contain at least one uppercase letter, one number, one symbol, and be at least 8 characters long.");
+    return;
+  }
+
+  // If all checks pass, display success message
+  alert("Password reset successfully!");
+  // Redirect back to register.html
+  window.location.href = "register.html";
+}
+
+function showCreateAccount() {
+  var createAccountForm = document.getElementById("createAccountForm");
+  createAccountForm.style.display = "block";
+}
+
+
+function login() {
+  var emailOrPhone = document.getElementById("emailOrPhone").value;
+  if (emailOrPhone.trim() === "") {
+    alert("Invalid! Please enter your email or phone number.");
+  } else if (!isValidPhoneNumber(emailOrPhone) && !isValidEmail(emailOrPhone)) {
+    alert("Invalid! Please enter a valid email or phone number.");
+  } else {
+    // Redirect to clg.html
+    window.location.href = "clg.html";
+    // Remove the logo element
+    var logo = document.querySelector(".logo");
+    logo.parentNode.removeChild(logo);
+  }
+}
+
+function isValidPhoneNumber(phone) {
+  // Check if the phone number is 10 digits long and starts with 6, 7, 8, or 9
+  return /^[6-9]\d{9}$/.test(phone);
+}
+
+function isValidEmail(email) {
+  // Check if it's a valid email address
+  return /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
+}
+
+</script>
+
+</body>
+</html>
